@@ -1,0 +1,12 @@
+{
+    "name": "project/name",
+    "authors": [
+        {
+            "name": "Username",
+            "email": "email@domain.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.1"
+    }
+}

@@ -1,0 +1,57 @@
+version: "3.2"
+
+services:
+
+  apache:
+    build: './docker/build/apache/'
+    depends_on:
+      - php
+      - composer
+      - mysql
+      - adminer
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/:/var/www/html/
+
+  php:
+    build: './docker/build/php/'
+    networks:
+      - backend
+    volumes:
+      - ./app/:/var/www/html/
+
+  mysql:
+    build: './docker/build/mysql/'
+    networks:
+      - backend
+    volumes:
+      - ./app/var/lib/mysql/:/var/lib/mysql/
+    environment: # Remove this to reinstall MySQL with existed data in volume folder
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=my_db
+      - MYSQL_USER=my_log
+      - MYSQL_PASSWORD=my_pwd
+
+  adminer:
+    build: './docker/build/adminer/'
+    networks:
+      - backend
+    restart: always
+    ports:
+      - "8181:8080"
+
+  composer:
+    build: './docker/build/composer/'
+    networks:
+      - backend
+    volumes:
+      - ./app/:/app/
+    command: install
+
+networks:
+  frontend:
+  backend:

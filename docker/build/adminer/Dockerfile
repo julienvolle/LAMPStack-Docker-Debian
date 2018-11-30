@@ -1,0 +1,2 @@
+# ADMINER Repository
+FROM adminer
